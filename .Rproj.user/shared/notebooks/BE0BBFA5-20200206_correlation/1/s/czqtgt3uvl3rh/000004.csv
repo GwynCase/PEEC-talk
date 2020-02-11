@@ -1,0 +1,6 @@
+"0","ska.random <- ska.random %>% mutate(cover.type=case_when("
+"0","  cover.type == 'TC' ~ 'conifer',"
+"0","  cover.type == 'TM' ~ 'mixed forest',"
+"0","  cover.type == 'TB' ~ 'deciduous',"
+"0","  cover.type == 'SL' ~ 'low shrub'"
+"0","))"

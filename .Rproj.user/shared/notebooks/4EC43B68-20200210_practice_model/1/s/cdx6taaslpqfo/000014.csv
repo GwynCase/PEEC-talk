@@ -1,0 +1,3 @@
+"0","ggplot(points, aes(x=live.stems, y=case)) +"
+"0","  stat_smooth(method='glm', method.args=list(family='binomial')) +"
+"0","  binomial_smooth(formula=y ~ splines::ns(x, 5), color='red')"

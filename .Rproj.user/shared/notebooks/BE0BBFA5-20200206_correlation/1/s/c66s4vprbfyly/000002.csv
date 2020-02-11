@@ -1,0 +1,6 @@
+"0","fc <- vri.forest %>% dplyr::select(age1, age2, m.age, v.complexity, "
+"0","                                  crown.closure, live.stems, basal.area, "
+"0","                                  m.tr.area) %>%"
+"0","  mutate_if(is.factor, as.numeric) %>%"
+"0","  cor(use='pairwise')"
+"0","corrplot(fc, method='color', order='hclust')"

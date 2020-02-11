@@ -1,0 +1,8 @@
+"0","# Load some libraries."
+"0","library('ggplot2')"
+"0","library('tidyverse')"
+"0","# Import random points."
+"0","ska.random <- read.csv('../data/processed/ska_random_variables.csv', stringsAsFactors=FALSE)"
+"0","ggplot(ska.random, aes(x=xcoord, y=ycoord)) +"
+"0","  geom_point() +"
+"0","  theme_void()"

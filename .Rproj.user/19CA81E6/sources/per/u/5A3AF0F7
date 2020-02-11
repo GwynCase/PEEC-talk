@@ -1,24 +1,23 @@
 {
     "collab_server" : "",
     "contents" : "",
-    "created" : 1581028859643.000,
+    "created" : 1581030406112.000,
     "dirty" : true,
     "encoding" : "",
     "folds" : "",
-    "hash" : "0",
-    "id" : "83CE9CA1",
-    "lastKnownWriteTime" : 3419473789575321445,
-    "last_content_update" : 1581028874238,
+    "hash" : "1125397894",
+    "id" : "5A3AF0F7",
+    "lastKnownWriteTime" : 22518200007917676,
+    "last_content_update" : 1581379298037,
     "path" : null,
     "project_path" : null,
     "properties" : {
-        "chunk_output_type" : "inline",
-        "cursorPosition" : "1,26",
+        "cursorPosition" : "1,52",
         "scrollLine" : "0",
         "tempName" : "Untitled1"
     },
     "relative_order" : 2,
     "source_on_save" : false,
     "source_window" : "",
-    "type" : "r_markdown"
+    "type" : "r_source"
 }

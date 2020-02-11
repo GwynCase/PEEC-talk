@@ -1,0 +1,4 @@
+"0","ska.random <- ska.random %>%"
+"0","  mutate(M_TR_AREA=BASAL_AREA/LIVE_STEMS) %>%"
+"0","  rename(lat=ycoord, lon=xcoord, age=PROJ_AGE_1, v.complexity=VERT_COMPL, crown.closure=CR_CLOSURE, live.stems=LIVE_STEMS,        basal.area=BASAL_AREA, cover.type=BCLCS_LV_4, m.tree.area=M_TR_AREA)"
+"0","ska.random %>% distinct(cover.type)"

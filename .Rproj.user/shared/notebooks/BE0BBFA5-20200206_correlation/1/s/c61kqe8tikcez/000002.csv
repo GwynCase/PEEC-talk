@@ -1,0 +1,5 @@
+"0","# cor() is base R but corrplot makes visualization nicer."
+"0","library('corrplot')"
+"0","c <- ska.random %>% dplyr::select(age, v.complexity, crown.closure, live.stems, basal.area, m.tree.area) %>%"
+"0","  cor(use='pairwise')"
+"0","corrplot(c, method='color', order='hclust')"
