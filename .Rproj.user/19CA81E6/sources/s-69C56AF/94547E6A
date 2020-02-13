@@ -1,0 +1,24 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1581629729609.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "94547E6A",
+    "lastKnownWriteTime" : 1581633501,
+    "last_content_update" : 1581633501348,
+    "path" : "C:/Users/Gwyn/sfuvault/PEEC-talk/notebooks/20200213_first_model_run.Rmd",
+    "project_path" : "notebooks/20200213_first_model_run.Rmd",
+    "properties" : {
+        "chunk_output_type" : "inline",
+        "cursorPosition" : "9,30",
+        "scrollLine" : "0",
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

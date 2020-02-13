@@ -1,0 +1,6 @@
+"0","```r
+```r
+ggplot(points, aes(x=cover, y=..prop.., group=case, colour=case)) +
+  geom_bar(position=\dodge\, aes(fill=case))
+```
+```"

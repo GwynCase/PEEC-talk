@@ -1,0 +1,4 @@
+"0","canopy <- glmer(case ~ canopy.closure + (1|site), data=points, family=binomial(link='logit'))"
+"0","density <- glmer(case ~ density + (1|site), data=points, family=binomial(link='logit'))"
+"0","basal <- glmer(case ~ basal.area + (1|site), data=points, family=binomial(link='logit'))"
+"0","vertical <- glmer(case ~ v.comp + (1|site), data=points, family=binomial(link='logit'))"

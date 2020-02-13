@@ -1,0 +1,7 @@
+"0","```r
+```r
+ggplot(points, aes(x=m.tr.area, y=case)) +
+  stat_smooth(method='glm', method.args=list(family='binomial')) +
+  binomial_smooth(formula=y ~ splines::ns(x, 5), color='red')
+```
+```"

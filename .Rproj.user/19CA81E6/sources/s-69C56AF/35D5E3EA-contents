@@ -1,0 +1,16 @@
+library('lme4')
+
+glmer(use ~ relevel(crop,"1")+(1|animal_id), data=data_1,
+      family=binomial(link="logit"),nAGQ = 0)
+
+n.plus <- glmer(case ~ n_hab + canopy.closure + (1|site), data=points, family=binomial(link='logit'))
+
+canopy <- glmer(case ~ canopy.closure + (1|site), data=points, family=binomial(link='logit'))
+
+density <- glmer(case ~ density + (1|site), data=points, family=binomial(link='logit'))
+
+basal <- glmer(case ~ basal.area + (1|site), data=points, family=binomial(link='logit'))
+
+vertical <- glmer(case ~ v.comp + (1|site), data=points, family=binomial(link='logit'))
+
+summary(n.plus)

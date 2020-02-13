@@ -1,2 +1,0 @@
-summary(glm(case ~ age + canopy.closure + m.tr.area + cover, 
-            data=points, weight=w, family=binomial))

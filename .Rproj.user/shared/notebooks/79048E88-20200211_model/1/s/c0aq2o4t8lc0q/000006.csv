@@ -1,0 +1,4 @@
+"0","```r
+ggplot(uv.unused, aes(x=VERT_COMPL, y=..prop.., group=case, colour=case)) +
+  geom_bar(position=\"dodge\", aes(fill=case))
+```"

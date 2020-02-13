@@ -1,0 +1,11 @@
+"0","# Classify points as daytime or nighttime.
+roam <- roam %>%
+  mutate(dial=case_when(
+    datetime < sunset & datetime > sunrise ~ 'day',
+    TRUE ~ 'night'
+  ))
+"
+"2","Error: Column names `sunrise`, `sunset` must not be duplicated.
+Use .name_repair to specify repair.
+[90mRun `rlang::last_error()` to see where the error occurred.[39m
+"

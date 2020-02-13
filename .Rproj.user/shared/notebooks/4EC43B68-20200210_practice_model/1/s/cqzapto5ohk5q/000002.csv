@@ -1,0 +1,22 @@
+"0","```r
+```r
+# Load some libraries.
+library('tidyverse')
+# Load the data.
+used <- read.csv('../data/processed/h_roost_attributes.csv')
+avail <- read.csv('../data/processed/ska_random_variables.csv')
+# Clean up the used columns.
+used <- used %>% dplyr::select(-day) %>%
+  rename(ycoord=m.lat, xcoord=m.lon) %>%
+  mutate(case=1)
+# Add a case column to the available points, too.
+avail <- avail %>%
+  mutate(case=0)
+# And bind them.
+points <- bind_rows(used, avail)
+# Annoyingly, it added an id column. Remove that and add mean area.
+points <- points %>% dplyr::select(-id) %>%
+  mutate(m.tr.area=BASAL_AREA/LIVE_STEMS) %>%
+  rename(cover=BCLCS_LV_4, live.stems=LIVE_STEMS, basal.area=BASAL_AREA, canopy.closure=CR_CLOSURE, age=PROJ_AGE_1, v.comp=VERT_COMPL)
+```
+```"

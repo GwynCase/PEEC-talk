@@ -1,0 +1,95 @@
+---
+title: "Model!"
+output: html_notebook
+---
+
+Okay, let's give this a try.
+
+Some of the points that aren't land are blank in the `BCLCS_LV_4` column, so for those points I'll mark as other 'OT'.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Load some libraries.
+library('tidyverse')
+library('lubridate')
+library('ggplot2')
+
+# Import the data.
+used <- read.csv('../data/processed/h_used_utm.csv', stringsAsFactors=F)
+available <- read.csv('../data/processed/available_utm.csv', stringsAsFactors=F)
+unused <- read.csv('../data/processed/unused_utm.csv', stringsAsFactors=F)
+
+# Do some cleanup.
+used <- used %>%
+  dplyr::select(-field_1, -m.lat, -m.lon) %>%
+  mutate(case=1)
+
+# Add a case attribute and fill in some blanks.
+available <- available %>% mutate(case=0) %>%
+  mutate(BCLCS_LV_4=case_when(
+  BCLCS_LV_4 == '' ~ 'OT',
+  TRUE ~ BCLCS_LV_4
+))
+
+unused <- unused %>% mutate(case=0)%>%
+  mutate(BCLCS_LV_4=case_when(
+  BCLCS_LV_4 == '' ~ 'OT',
+  TRUE ~ BCLCS_LV_4
+))
+
+# Make two data sets.
+uv.avail <- bind_rows(used, available) %>%
+  dplyr::select(-id)
+uv.unused <- bind_rows(used, unused) %>%
+  dplyr::select(-id)
+```
+
+So that data is all entered in. Now I can do a little exploring.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+binomial_smooth <- function(...) {
+  geom_smooth(method = "glm", method.args = list(family = "binomial"), ...)
+}
+
+ggplot(uv.unused, aes(x=CR_CLOSURE, y=case)) +
+  stat_smooth(method='glm', method.args=list(family='binomial')) +
+  binomial_smooth(formula=y ~ splines::ns(x, 5), color='red')
+
+ggplot(uv.unused, aes(x=BASAL_AREA, y=case)) +
+  stat_smooth(method='glm', method.args=list(family='binomial')) +
+  binomial_smooth(formula=y ~ splines::ns(x, 5), color='red')
+
+ggplot(uv.unused, aes(x=LIVE_STEMS, y=case)) +
+  stat_smooth(method='glm', method.args=list(family='binomial')) +
+  binomial_smooth(formula=y ~ splines::ns(x, 5), color='red')
+
+ggplot(uv.unused, aes(x=VERT_COMPL, y=case)) +
+  stat_smooth(method='glm', method.args=list(family='binomial')) +
+  binomial_smooth(formula=y ~ splines::ns(x, 5), color='red')
+
+ggplot(uv.unused, aes(x=SPEC_PCT_1, y=case)) +
+  stat_smooth(method='glm', method.args=list(family='binomial')) +
+  binomial_smooth(formula=y ~ splines::ns(x, 5), color='red')
+
+ggplot(uv.unused, aes(x=PROJ_AGE_1, y=case)) +
+  stat_smooth(method='glm', method.args=list(family='binomial')) +
+  binomial_smooth(formula=y ~ splines::ns(x, 5), color='red')
+
+ggplot(uv.unused, aes(x=PROJ_HT_1, y=case)) +
+  stat_smooth(method='glm', method.args=list(family='binomial')) +
+  binomial_smooth(formula=y ~ splines::ns(x, 5), color='red')
+```
+
+Because I didn't think things through (sigh) I apparently can't break this down by individual animal. And I wonder what happens if I run vertical complexity as a factor, rather than a contiuous variable.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+ggplot(uv.unused, aes(x=BCLCS_LV_4, y=..prop.., group=case, colour=case)) +
+  geom_bar(position="dodge", aes(fill=case))
+
+ggplot(uv.unused, aes(x=BCLCS_LV_5, y=..prop.., group=case, colour=case)) +
+  geom_bar(position="dodge", aes(fill=case))
+
+ggplot(uv.unused, aes(x=VERT_COMPL, y=..prop.., group=case, colour=case)) +
+  geom_bar(position="dodge", aes(fill=case))
+```
+
+Yes, running vertical complexity as a factor did work much better.

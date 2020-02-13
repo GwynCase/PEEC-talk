@@ -1,0 +1,5 @@
+
+
+ggplot(points, aes(x=height)) +
+  geom_histogram(binwidth=5, color='white') +
+  theme_classic()

@@ -1,0 +1,5 @@
+"0","ggplot(points, aes(x=live.stems, y=case)) +"
+"0","  geom_point() +"
+"0","  theme_classic() +"
+"0","  stat_smooth(method='glm', method.args=list(family='binomial')) +"
+"0","  facet_wrap(~site, scales='free')"

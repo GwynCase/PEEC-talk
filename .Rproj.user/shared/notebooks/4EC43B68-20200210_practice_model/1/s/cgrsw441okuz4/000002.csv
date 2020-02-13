@@ -1,0 +1,36 @@
+"0","```r
+```r
+# Build the model.
+summary(glm(case ~ age + canopy.closure + m.tr.area + cover, data=points, weight=w, family=binomial))
+
+```
+```"
+"1","
+Call:
+glm(formula = case ~ age + canopy.closure + m.tr.area + cover, 
+    family = binomial, data = points, weights = w)
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+-2.326  -1.228   3.740   4.000   4.752  
+
+Coefficients:
+                 Estimate Std. Error z value Pr(>|z|)    
+(Intercept)    -26.980850 346.093427  -0.078   0.9379    
+age              0.002921   0.001420   2.057   0.0397 *  
+canopy.closure   0.071733   0.015184   4.724 2.31e-06 ***
+m.tr.area       -2.403712   2.134991  -1.126   0.2602    
+coverTC         14.493690 346.091560   0.042   0.9666    
+coverTM         12.969564 346.092848   0.037   0.9701    
+---
+Signif. codes:  0 Ã¢â‚¬Ëœ***Ã¢â‚¬â„¢ 0.001 Ã¢â‚¬Ëœ**Ã¢â‚¬â„¢ 0.01 Ã¢â‚¬Ëœ*Ã¢â‚¬â„¢ 0.05 Ã¢â‚¬Ëœ.Ã¢â‚¬â„¢ 0.1 Ã¢â‚¬Ëœ Ã¢â‚¬â„¢ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1212.1  on 124  degrees of freedom
+Residual deviance: 1168.6  on 119  degrees of freedom
+  (5 observations deleted due to missingness)
+AIC: 1180.6
+
+Number of Fisher Scoring iterations: 12
+"

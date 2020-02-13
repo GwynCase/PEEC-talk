@@ -1,0 +1,8 @@
+"0","```r
+binomial_smooth <- function(...) {
+  geom_smooth(method = \"glm\", method.args = list(family = \"binomial\"), ...)
+}
+ggplot(uv.unused, aes(x=CR_CLOSURE, y=case)) +
+  stat_smooth(method='glm', method.args=list(family='binomial')) +
+  binomial_smooth(formula=y ~ splines::ns(x, 5), color='red')
+```"
