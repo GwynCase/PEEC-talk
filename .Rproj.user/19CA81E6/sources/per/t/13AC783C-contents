@@ -1,0 +1,149 @@
+---
+title: "Model checking"
+output: html_notebook
+---
+
+So following on the model and model resuts I produced last time, I need to check on a few things.
+
+* Dig more into how the foraging HSI compares to the nesting HSI
+* Check that missing NAs are randomly distributed
+* Look at more than just AICs
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Load some libraries.
+library('ggplot2')
+library('tidyverse')
+library('lme4')
+
+# Read in the points.
+points <- read.csv('../data/interim/points.csv', stringsAsFactors=FALSE)
+
+# Do all the transformations as last time.
+f.points <- points %>%
+  filter(n_hab >= 0) %>%
+  filter(!cover=='') %>% 
+  mutate(density=case_when(
+  density=='RZ' ~ 'NL',
+  density=='UR' ~ 'NL',
+  TRUE ~ density
+)) %>%
+  filter(cover %in% c('TC', 'TM', 'TB'))
+```
+
+That was probably actually a lot of extra steps... but it gives me all the forest points, with the NAs included. Which looks like this:
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+map(f.points, ~sum(is.na(.)))
+```
+
+So I still have `NAs` for basal area, and vertical complexity. I gave Little's MCAR test a shot, though from some of the chatter online it's not actually a very good test.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library('BaylorEdPsych')
+# Requires mvnmle to be installed
+
+missing <- f.points %>% select(7:15) %>% 
+  LittleMCAR()
+
+missing$chi.square
+missing$p.value
+missing$amount.missing
+```
+
+The math for Little's test it well beyond me, but if it's doing what I think it's doing than it's no surprise it finds the missing values to be non-random. Obviously more values are missing from `v.comp` (81) than `age` (0). But that's not really what I care about, is it? I'm worried whether removing observations with NAs will bias the overall distribution of the variables.
+
+I think what I really need are somee f-tests and t-tests, but for that I need normal data... which I don't have. So... something nonparametric?
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Make the second data set, without NAs
+n.points <- f.points %>%
+  drop_na()
+
+# Just a quick run...
+wilcox.test(f.points$age, n.points$age)
+```
+
+I always struggle with p-values. Here, the null hypothesis is that the two ages are the same. A large p-value "accepts" the null hypothesis, and a small p-value rejects it. Here the p-value of 0.02 is slightly smaller than 0.05, so I have to reject the null and say the ages really are different.
+
+Damn.
+
+How about the other variables?
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+wilcox.test(f.points$n_hab, n.points$n_hab)
+wilcox.test(f.points$canopy.closure, n.points$canopy.closure)
+wilcox.test(f.points$basal.area, n.points$basal.area)
+```
+
+So nesting habitat isn't different, basal area isn't different, and v.comp isn't different, but canopy closure is different.
+
+Well, it makes sense that vertical complexity would be the same, since that's the limiting factor. What if I drop vertical complexity from my analysis?
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+f.points <- f.points %>%
+  dplyr::select(-v.comp)
+
+n.points <- f.points %>%
+  drop_na()
+
+wilcox.test(f.points$n_hab, n.points$n_hab)
+wilcox.test(f.points$canopy.closure, n.points$canopy.closure)
+wilcox.test(f.points$basal.area, n.points$basal.area)
+wilcox.test(f.points$age, n.points$age)
+wilcox.test(f.points$age, n.points$height)
+```
+
+So removing vertical complexity altogether mostly fixed things (though height is still weird, for some reason). How do my models look when I re-run them this way?
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# "Boost" models.
+b.basal <- glmer(case ~ n_hab + basal.area + (1|site), data=n.points, family=binomial(link='logit'))
+
+b.canopy <- glmer(case ~ n_hab + canopy.closure + (1|site), data=n.points, family=binomial(link='logit'))
+
+# "Solo" models.
+s.basal <- glmer(case ~ basal.area + (1|site), data=n.points, family=binomial(link='logit'))
+
+s.canopy <- glmer(case ~ canopy.closure + (1|site), data=n.points, family=binomial(link='logit'))
+
+s.age <- glmer(case ~ age + (1|site), data=f.points, family=binomial(link='logit'))
+
+# And of course habitat models.
+n.hab <- glmer(case ~ n_hab + (1|site), data=n.points, family=binomial(link='logit'))
+
+f.hab <- glmer(case ~ f_hab + (1|site), data=n.points, family=binomial(link='logit'))
+
+# And one novel one.
+can.age <- glmer(case ~ age + canopy.closure + (1|site), data=n.points, family=binomial(link='logit'))
+
+# Check what pops out.
+aic <- AIC(b.basal, b.canopy, s.basal, s.canopy, s.age, n.hab, f.hab, can.age)
+
+aic %>% rownames_to_column() %>%
+  arrange(AIC)
+```
+
+Ok, so this result is a bit more like what I expected. When the habitat model is assisted by canopy closure it performs best. Canopy closure still performs better than the nesting model alone, though. And it occurred to me that basal area is meaningless, since it's an area for the entire polygon, and that means nothing without polygon area/live stems.
+
+So!
+
+(Also, I just realized I didn't scale my variables this time around and yet I didn't get any errors. So that's nice.)
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Scale basal area by number of trees.
+n.points <- n.points %>% mutate(m.basal=basal.area/live.stems)
+
+# New models.
+b.mbase <- glmer(case ~ n_hab + m.basal + (1|site), data=n.points, family=binomial(link='logit'))
+
+s.mbase <- glmer(case ~ m.basal + (1|site), data=n.points, family=binomial(link='logit'))
+
+fb.canopy <- glmer(case ~ f_hab + canopy.closure + (1|site), data=n.points, family=binomial(link='logit'))
+
+aic <- AIC(b.basal, b.canopy, s.basal, s.canopy, s.age, n.hab, f.hab, can.age, b.mbase, s.mbase, fb.canopy)
+
+aic %>% rownames_to_column() %>%
+  arrange(AIC)
+```
+
+Hey! I was right!  The foraging model does work better in combination with canopy closure than the nesting model. Probably because of the  distance from edge.

@@ -1,0 +1,7 @@
+"0","p.points <- p.points %>% mutate(density=case_when("
+"0","  density=='RZ' ~ 'NL',"
+"0","  density=='UR' ~ 'NL',"
+"0","  TRUE ~ density"
+"0","))"
+"0","# And then scale the numeric variables."
+"0","s.points <- p.points %>% mutate(canopy.closure=scale(canopy.closure), basal.area=scale(basal.area), live.stems=scale(live.stems), v.comp=scale(v.comp), dom.sp.per=scale(dom.sp.per), age=scale(age), height=scale(height))"

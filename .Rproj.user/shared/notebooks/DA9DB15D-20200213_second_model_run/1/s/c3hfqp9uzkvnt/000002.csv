@@ -1,0 +1,4 @@
+"0","f.points <- s.points %>% filter(cover %in% c('TC', 'TM', 'TB')) %>%"
+"0","  drop_na()"
+"0","f.points %>% group_by(case) %>%"
+"0","  summarize(n())"

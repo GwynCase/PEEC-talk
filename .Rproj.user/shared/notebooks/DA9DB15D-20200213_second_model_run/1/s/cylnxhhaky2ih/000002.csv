@@ -1,0 +1,1 @@
+"0","sink.corr <- glmer(case ~ canopy.closure + basal.area + density + (1|site), data=s.points, family=binomial(link='logit'))"

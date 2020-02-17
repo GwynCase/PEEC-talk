@@ -1,0 +1,1 @@
+"0","p.points <- p.points %>% filter(!cover=='')"

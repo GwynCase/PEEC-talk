@@ -1,0 +1,512 @@
+corrplot(c, method='color', order='hclust', addCoef.col='black', number.digits=2)
+corrplot(c, method='color', order='hclust', addCoef.col='black', number.digits=1)
+# Load some libraries.
+library('ggplot2')
+library('tidyverse')
+library('corrplot')
+# Load in the data.
+used <- read.csv('../data/processed/h_used_utm.csv', stringsAsFactors=FALSE)
+avail <- read.csv('../data/processed/available_utm.csv', stringsAsFactors=FALSE)
+# Do some cleanup.
+used <- used %>%
+dplyr::select(-field_1, -day, -m.lat, -m.lon) %>%
+mutate(case=1)
+avail <- avail %>%
+dplyr::select(-id) %>%
+mutate(case=0)
+# ...and in the darkness bind them!
+points <- bind_rows(used, avail)
+# A little more cleanup.
+points <- points %>%
+rename(cover=BCLCS_LV_4, density=BCLCS_LV_5,live.stems=LIVE_STEMS, basal.area=BASAL_AREA, canopy.closure=CR_CLOSURE, v.comp=VERT_COMPL, age=PROJ_AGE_1, height=PROJ_HT_1, dom.sp.per=SPEC_PCT_1) %>%
+dplyr::select(xcoord, ycoord, site, case, cover, density, everything())
+c <- points %>%
+dplyr::select(7:15) %>%
+cor(use='pairwise')
+corrplot(c, method='color', order='hclust', addCoef.col='black', number.digits=1)
+View(points)
+ggplot(points, aes(x=canopy.closure, y=case)) +
+geom_point()
+ggplot(points, aes(x=canopy.closure, y=case)) +
+geom_point() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+g
+ggplot(points, aes(x=canopy.closure, y=case)) +
+geom_point() +
+stat_smooth(method='glm', method.args=list(family='binomial'))
+ggplot(points, aes(x=canopy.closure, y=case)) +
+geom_point() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+theme_classic()
+ggplot(points, aes(x=canopy.closure, y=case)) +
+geom_point() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+theme_classic() +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=canopy.closure, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=basal.area, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=live.stems, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=v.comp, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=dom.sp.per, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=age, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=height, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=f_hab, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=n_hab, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=canopy.closure, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=basal.area, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=live.stems, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=v.comp, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=dom.sp.per, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=age, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=height, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=f_hab, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=n_hab, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=cover, y=..prop.., group=case, colour=case)) +
+geom_bar(position="dodge", aes(fill=case)) +
+facet_wrap(~site, scales='free')
+View(points)
+ggplot(points, aes(x=canopy.closure, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=basal.area, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=live.stems, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=v.comp, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=dom.sp.per, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=age, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=height, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=f_hab, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=n_hab, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=cover, y=..prop.., group=case, colour=case)) +
+geom_bar(position="dodge", aes(fill=case)) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=cover, y=..prop.., group=case, colour=case)) +
+geom_bar(position="dodge", aes(fill=case)) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=density, y=..prop.., group=case, colour=case)) +
+geom_bar(position="dodge", aes(fill=case)) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=v.comp, y=..prop.., group=case, colour=case)) +
+geom_bar(position="dodge", aes(fill=case)) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=canopy.closure, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=basal.area, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=live.stems, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=v.comp, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=dom.sp.per, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=age, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=height, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=f_hab, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=n_hab, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=cover, y=..prop.., group=case, colour=case)) +
+geom_bar(position="dodge", aes(fill=case)) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=cover, y=..prop.., group=case, colour=case)) +
+geom_bar(position="dodge", aes(fill=case)) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=density, y=..prop.., group=case, colour=case)) +
+geom_bar(position="dodge", aes(fill=case)) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=v.comp, y=..prop.., group=case, colour=case)) +
+geom_bar(position="dodge", aes(fill=case)) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=canopy.closure, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=basal.area, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=live.stems, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=v.comp, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=dom.sp.per, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=age, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=height, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=f_hab, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=n_hab, y=case)) +
+geom_point() +
+theme_classic() +
+stat_smooth(method='glm', method.args=list(family='binomial')) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=cover, y=..prop.., group=case, colour=case)) +
+geom_bar(position="dodge", aes(fill=case)) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=density, y=..prop.., group=case, colour=case)) +
+geom_bar(position="dodge", aes(fill=case)) +
+facet_wrap(~site, scales='free')
+ggplot(points, aes(x=v.comp, y=..prop.., group=case, colour=case)) +
+geom_bar(position="dodge", aes(fill=case)) +
+facet_wrap(~site, scales='free')
+hist(points$age)
+ggplot(points, aes(x=age)) +
+geom_histogram()
+ggplot(points, aes(x=age)) +
+geom_histogram(binwidth=50) +
+theme_classic()
+ggplot(points, aes(x=age, width=0.9)) +
+geom_histogram(binwidth=50) +
+theme_classic()
+ggplot(points, aes(x=age)) +
+geom_histogram(binwidth=50, width=0.9) +
+theme_classic()
+ggplot(points, aes(x=basal.area)) +
+geom_histogram() +
+theme_classic()
+ggplot(points, aes(x=basal.area)) +
+geom_histogram(binwidth=10) +
+theme_classic()
+ggplot(points, aes(x=canopy.closure)) +
+geom_histogram() +
+theme_classic()
+ggplot(points, aes(x=canopy.closure)) +
+geom_histogram(color=white) +
+theme_classic()
+ggplot(points, aes(x=canopy.closure)) +
+geom_histogram(color='white') +
+theme_classic()
+ggplot(points, aes(x=canopy.closure)) +
+geom_histogram(binwidth=10, color='white') +
+theme_classic()
+View(points)
+ggplot(points, aes(x=live.stems)) +
+geom_histogram(binwidth=10, color='white') +
+theme_classic()
+ggplot(points, aes(x=live.stems)) +
+geom_histogram(binwidth=50, color='white') +
+theme_classic()
+ggplot(points, aes(x=v.comp)) +
+geom_histogram(color='white') +
+theme_classic()
+ggplot(points, aes(x=v.comp)) +
+geom_histogram(binwidth=1, color='white') +
+theme_classic()
+ggplot(points, aes(x=dom.sp.per)) +
+geom_histogram(binwidth=10, color='white') +
+theme_classic()
+ggplot(points, aes(x=age)) +
+geom_histogram(binwidth=50, color='white') +
+theme_classic()
+ggplot(points, aes(x=height)) +
+geom_histogram(binwidth=10, color='white') +
+theme_classic()
+ggplot(points, aes(x=height)) +
+geom_histogram(binwidth=5, color='white') +
+theme_classic()
+ggplot(points, aes(x=f_hab)) +
+geom_histogram(binwidth=1, color='white') +
+theme_classic()
+ggplot(points, aes(x=canopy.closure)) +
+geom_histogram(binwidth=10, color='white') +
+theme_classic()
+ggplot(points, aes(x=basal.area)) +
+geom_histogram(binwidth=10, color='white') +
+theme_classic()
+ggplot(points, aes(x=live.stems)) +
+geom_histogram(binwidth=50, color='white') +
+theme_classic()
+ggplot(points, aes(x=v.comp)) +
+geom_histogram(binwidth=1, color='white') +
+theme_classic()
+ggplot(points, aes(x=dom.sp.per)) +
+geom_histogram(binwidth=10, color='white') +
+theme_classic()
+ggplot(points, aes(x=age)) +
+geom_histogram(binwidth=50, color='white') +
+theme_classic()
+ggplot(points, aes(x=height)) +
+geom_histogram(binwidth=5, color='white') +
+theme_classic()
+ggplot(points, aes(x=f_hab)) +
+geom_histogram(binwidth=1, color='white') +
+theme_classic()
+ggplot(points, aes(x=n_hab)) +
+geom_histogram(binwidth=1, color='white') +
+theme_classic()
+ggplot(points, aes(x=canopy.closure)) +
+geom_histogram(binwidth=10, color='white') +
+theme_classic()
+ggplot(points, aes(x=basal.area)) +
+geom_histogram(binwidth=10, color='white') +
+theme_classic()
+ggplot(points, aes(x=live.stems)) +
+geom_histogram(binwidth=50, color='white') +
+theme_classic()
+ggplot(points, aes(x=v.comp)) +
+geom_histogram(binwidth=1, color='white') +
+theme_classic()
+ggplot(points, aes(x=dom.sp.per)) +
+geom_histogram(binwidth=10, color='white') +
+theme_classic()
+ggplot(points, aes(x=age)) +
+geom_histogram(binwidth=50, color='white') +
+theme_classic()
+ggplot(points, aes(x=height)) +
+geom_histogram(binwidth=5, color='white') +
+theme_classic()
+ggplot(points, aes(x=f_hab)) +
+geom_histogram(binwidth=1, color='white') +
+theme_classic()
+ggplot(points, aes(x=n_hab)) +
+geom_histogram(binwidth=1, color='white') +
+theme_classic()
+# Load some libraries.
+library('ggplot2')
+library('tidyverse')
+library('corrplot')
+# Load in the data.
+used <- read.csv('../data/processed/h_used_utm.csv', stringsAsFactors=FALSE)
+avail <- read.csv('../data/processed/available_utm.csv', stringsAsFactors=FALSE)
+# Do some cleanup.
+used <- used %>%
+dplyr::select(-field_1, -day, -m.lat, -m.lon) %>%
+mutate(case=1)
+avail <- avail %>%
+dplyr::select(-id) %>%
+mutate(case=0)
+# ...and in the darkness bind them!
+points <- bind_rows(used, avail)
+# A little more cleanup.
+points <- points %>%
+rename(cover=BCLCS_LV_4, density=BCLCS_LV_5,live.stems=LIVE_STEMS, basal.area=BASAL_AREA, canopy.closure=CR_CLOSURE, v.comp=VERT_COMPL, age=PROJ_AGE_1, height=PROJ_HT_1, dom.sp.per=SPEC_PCT_1) %>%
+dplyr::select(xcoord, ycoord, site, case, cover, density, everything())
+c <- points %>%
+dplyr::select(7:15) %>%
+cor(use='pairwise')
+corrplot(c, method='color', order='hclust', addCoef.col='black', number.digits=1)
+# Save for later.
+write.csv('../data/interim/points.csv' row.names=FALSE)
+# Save for later.
+write.csv('../data/interim/points.csv', row.names=FALSE)
+# Save for later.
+write.csv(points, '../data/interim/points.csv', row.names=FALSE)
+corrplot(c, method='color', order='hclust', addCoef.col='black', number.digits=1)
+points <- read.csv('../data/interim/points.csv' stringsAsFactors=FALSE)
+points <- read.csv('../data/interim/points.csv', stringsAsFactors=FALSE)
+View(points)
+library('lme4')
+glmer(count ~ n_hab + (1|site), data=points,
+family=binomial(link='logit'), nAGQ = 0)
+points$site <- as.factor(points$site)
+glmer(count ~ n_hab + (1|site), data=points,
+family=binomial(link='logit'))
+points
+View(points)
+glmer(case ~ n_hab + (1|site), data=points,
+family=binomial(link='logit'))
+n.hab <- glmer(case ~ n_hab + (1|site), data=points,
+family=binomial(link='logit'))
+View(points)
+sink.corr <- glmer(case ~ canopy.closure + basal.area + density + (1|site), data=points, family=binomial(link='logit'))
+sink.alt <- glmer(case ~ canopy.closure + v.comp + density + (1|site), data=points, family=binomial(link='logit'))
+sink.alt <- glmer(case ~ n_hab + canopy.closure + (1|site), data=points, family=binomial(link='logit'))
+sink.alt <- glmer(case ~ canopy.closure + v.comp + density + (1|site), data=points, family=binomial(link='logit'))
+n.plus <- glmer(case ~ n_hab + canopy.closure + (1|site), data=points, family=binomial(link='logit'))
+# Load some libraries.
+library('ggplot2')
+library('tidyverse')
+library('lme4')
+points <- read.csv('../data/interim/points.csv', stringsAsFactors=FALSE)
+n.hab <- glmer(case ~ n_hab + (1|site), data=points,
+family=binomial(link='logit'))
+sink.corr <- glmer(case ~ canopy.closure + basal.area + density + (1|site), data=points, family=binomial(link='logit'))
+## Gives me weird error about 'Model is nearly unidentifiable'??
+sink.alt <- glmer(case ~ canopy.closure + v.comp + density + (1|site), data=points, family=binomial(link='logit'))
+## Same error.
+n.plus <- glmer(case ~ n_hab + canopy.closure + (1|site), data=points, family=binomial(link='logit'))
+canopy <- glmer(case ~ canopy.closure + (1|site), data=points, family=binomial(link='logit'))
+density <- glmer(case ~ density + (1|site), data=points, family=binomial(link='logit'))
+basal <- glmer(case ~ basal.area + (1|site), data=points, family=binomial(link='logit'))
+vertical <- glmer(case ~ v.comp + (1|site), data=points, family=binomial(link='logit'))
+canopy <- glmer(case ~ canopy.closure + (1|site), data=points, family=binomial(link='logit'))
+density <- glmer(case ~ density + (1|site), data=points, family=binomial(link='logit'))
+basal <- glmer(case ~ basal.area + (1|site), data=points, family=binomial(link='logit'))
+vertical <- glmer(case ~ v.comp + (1|site), data=points, family=binomial(link='logit'))
+AIC(n.hab)
+AIC(n.hab, hab.plus)
+AIC(c(n.hab, hab.plus))
+AIC(n.hab, n.plus)
+AIC(n.hab, n.plus, canopy)
+AIC(n.hab, n.plus, canopy, sink.alt)
+AIC(n.hab, sink.corr, sink.alt, n.plus)
+summary(n.hab, sink.corr, sink.alt, n.plus)
+summary(c(n.hab, sink.corr, sink.alt, n.plus))
+summary(n.plus))
+summary(n.plus)
+AIC(n.hab, sink.corr, sink.alt, n.plus)
+summary(n.hab)
+summary(sink.corr)
+summary(sink.alt)
+summary(n.plus)
+# Read in the points.
+points <- read.csv('../data/interim/points.csv', stringsAsFactors=FALSE)
+ggplot(points, aes(x=canopy.closure)) +
+geom_histogram(binwidth=10, color='white') +
+theme_classic()
