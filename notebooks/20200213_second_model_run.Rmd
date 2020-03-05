@@ -17,7 +17,7 @@ library('tidyverse')
 library('lme4')
 
 # Read in the points.
-points <- read.csv('../data/interim/points.csv', stringsAsFactors=FALSE)
+points <- read.csv('../h_data/interim/points.csv', stringsAsFactors=FALSE)
 
 p.points <- points %>%
   filter(n_hab >= 0)

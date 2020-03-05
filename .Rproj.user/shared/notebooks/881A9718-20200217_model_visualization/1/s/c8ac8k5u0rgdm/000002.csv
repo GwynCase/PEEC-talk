@@ -1,0 +1,5 @@
+"0","ggsave('../reports/uvav_nhab.jpg', plot=g.nhab)"
+"0","ggsave('../reports/uvav_fhab.jpg', plot=g.fhab)"
+"0","ggsave('../reports/uvav_can.jpg', plot=g.can)"
+"0","ggsave('../reports/uvav_age.jpg', plot=g.age)"
+"0","ggsave('../reports/uvav_basal.jpg', plot=g.basal)"

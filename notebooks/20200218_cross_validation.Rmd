@@ -1,0 +1,55 @@
+---
+title: "Cross Validation"
+output: html_notebook
+---
+
+Ok, to get a more absolute idea of how good my models are, I want to calculate som R2s.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Load some libraries.
+library('tidyverse')
+library('lme4')
+library('AICcmodavg')
+
+# Read in the points.
+points <- read.csv('../h_data/interim/points.csv', stringsAsFactors=FALSE)
+
+# Get the final data set.
+n.points <- points %>%
+  filter(n_hab >= 0) %>%
+  filter(cover %in% c('TC', 'TM', 'TB')) %>%
+  select(-v.comp) %>%
+  drop_na()
+
+# Build the models.
+b.canopy <- glmer(case ~ n_hab + canopy.closure + (1|site), data=n.points, family=binomial(link='logit'))
+
+fb.canopy <- glmer(case ~ f_hab + canopy.closure + (1|site), data=n.points, family=binomial(link='logit'))
+
+s.canopy <- glmer(case ~ canopy.closure + (1|site), data=n.points, family=binomial(link='logit'))
+
+n.hab <- glmer(case ~ n_hab + (1|site), data=n.points, family=binomial(link='logit'))
+
+f.hab <- glmer(case ~ f_hab + (1|site), data=n.points, family=binomial(link='logit'))
+
+can.age <- glmer(case ~ age + canopy.closure + (1|site), data=n.points, family=binomial(link='logit'))
+
+s.age <- glmer(case ~ age + (1|site), data=n.points, family=binomial(link='logit'))
+
+site <- glmer(case ~ 1 + (1|site), data=n.points, family=binomial(link='logit'))
+
+models <- c(b.canopy, fb.canopy, s.canopy, n.hab, f.hab, can.age, s.age, site)
+
+modnames <- c('canopy + nest hab', 'canopy + f hab', 'canopy alone', 'nest hab alone', 'f hab alone', 'canopy + age', 'age alone', 'site')
+
+aictab(models, modnames=modnames)
+```
+
+And then calculate the R^2. `R2m` being the marginal R2, the amount of variance explained by the fixed factors alone, and `R2c` being the conditional R2, the amount of variance explained by both fixed and random factors.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library('MuMIn')
+
+r.squaredGLMM(b.canopy)
+r.squaredGLMM(n.hab)
+```
