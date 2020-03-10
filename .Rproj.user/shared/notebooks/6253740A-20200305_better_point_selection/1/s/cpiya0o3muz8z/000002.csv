@@ -1,0 +1,3 @@
+"0","roost <- roam %>% "
+"0","  group_by(site, date) %>%"
+"0","  filter(datetime == max(datetime))"

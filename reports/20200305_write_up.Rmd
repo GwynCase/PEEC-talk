@@ -1,0 +1,70 @@
+---
+title: "Where the Wild Things Sleep"
+subtitle: "an adventure in misusing models"
+output: html_notebook
+bibliography: bibliography.bib
+---
+
+# Introduction
+
+Habitat models are important tools in wildlife management. In coastal B.C., provincial management of the northern goshawk is assissted by a habitat suitability index (HSI) built around nesting habitat characteristics [@mahon_northern_2008]. Of course, goshawks need more than just a place to build their nest in order to raise their young--they also need places to hunt and places to sleep.
+
+Nocturnal roosting is small but important part of a goshawk's daily activities. Sheltered nighttime roost sites are crucial for safety and thermoregulation, yet only two studies have investigated roost site selection in northern goshawks [@blakey_2020, @rickman_2005].
+
+Goshawks might select roost sites similar to nest sites, or they might select sites based on very different criteria. I wanted to know whether the nesting HSI could be extended to predict roost sites as well, and, if not, what habitat characteristics might be better predictors.
+
+# Methods
+
+<!-- ## Study area --> 
+
+## Roost site selection
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Load libraries
+library('tidyverse')
+library('lubridate')
+library('knitr')
+library('kableExtra')
+
+sites <- read.csv('../h_data/raw/intensives.csv', stringsAsFactors=FALSE)
+
+# Load in used and available points.
+avail <- read.csv('../h_data/processed/available_utm.csv', stringsAsFactors=FALSE)
+locs <- read.csv('../h_data/processed/used_2_attributes.csv', stringsAsFactors=FALSE)
+
+# Clean up the messy datasets.
+avail <- avail %>% dplyr::select(canopy.closure=CR_CLOSURE, basal.area=BASAL_AREA, age=PROJ_AGE_1, f_hab=f_hab, n_hab=n_hab, site=site) %>%
+  mutate(case=0)
+
+used <- locs %>% dplyr::select(canopy.closure=CR_CLOSURE, basal.area=BASAL_AREA, age=PROJ_AGE_1, f_hab=f_hab, n_hab=n_hab, site=site) %>%
+  mutate(case=1)
+
+# Combine.
+points <- bind_rows(used, avail)
+
+# Summary table.
+roost.summary <- locs %>% group_by(site) %>% summarise(n=n())
+```
+
+```{r roosts, echo=FALSE, message=FALSE, warning=FALSE, fig.pos = 'h'}
+knitr::kable(roost.summary, caption = 'Number of roosts calculated per site in 2019', col.names=c('Site abbr.', 'N. roosts'))
+```
+
+During 2018-2019 we captured and tagged `r sites %>% dplyr::select(m_tag, f_tag) %>%  n_distinct()` adult goshawks (`r sites %>% dplyr::select(f_tag) %>% drop_na() %>% n_distinct()` female and `r sites %>% dplyr::select(m_tag) %>% drop_na() %>% n_distinct()` male) at `r sites %>% filter(tag==1) %>% dplyr::select(site) %>% n_distinct()` active nest sites located on the south coast of B.C. Goshawk nests were located by provincial survey crews or reported by timber industry professionals. Trapping took place during the mid-breeding season (May-June) using a dho-gaza trap with a live great-horned owl (*Bubo virginianus*) as a lure [bloom_2007]. We fit goshawks with a solar-powered GPS-UHF transmitter with an additional attached VHF transmitter (Harrier model, Ecotone Telemetry, Sopot, Poland). Transmitters weighed approximately 14 g and were attached with a backpack-style Teflon ribbon harness. Transmitters were programmed to record a location every 15 minutes during the breeding season (approximately May-August) and every 4 hours during the nonbreeding season to conserve energy. Location data were retrieved from the tag via either a base station placed near the nest or a hand-held UHF receiver.
+
+<!-- Does this need something about non-randomness of sites? -->
+<!-- Check whether VHF is different make than GPS -->
+<!-- Check weigth of transmitter -->
+
+Due to insufficient location or habitat data, three individuals were not included in this analysis. An additional female showed strong fidelity to the nest site and rarely roosted off the nest, so was also excluded from the analysis. From the remaining three individuals, `r length(locs$id)` nighttime roost locations were obtained between `r min(locs$datetime) %>% day()` `r min(locs$datetime) %>% month(label=TRUE, abbr=FALSE)` and `r max(locs$datetime) %>% day()` `r max(locs$datetime) %>% month(label=TRUE, abbr=FALSE)` `r min(locs$datetime) %>% year()`. See Table \@ref(tab:roosts). Roosts were calculated from the location taken closest to midnight within four hours prior to midnight. Locations recorded more than four hours before midnight were discarded.
+
+## Habitat selection
+
+To determine the area available to goshawks for roosting, I calculated 100% minimum convex polygon home ranges for each site using all telemetry data. Within each home range we used QGIS [@qgis_2019] to generate a grid of points with 500 m spacing to represent available roosting habitat.
+
+Habitat variables were characterized using forest inventory data [@vri_2018] and two variants of the HSI (nesting and foraging) [@mahon_northern_2008]. <!-- Description of the HSIs --> From these sources I extracted 5 variables at each available point: crown closure (percent of ground area covered by tree canopy), basal area (tree area at breast height in m^2^/ha), age (basal area-weighted age of dominant tree species), foraging habitat quality (nil-high, 0-3), and nesting habitat quality (nil-high, 0-3). Points located in "impossible" roosting habitat (i.e. water, open fields, etc.) were removed from the analysis.
+
+## Statistical Methods
+
+I developed a set of candidate models to predict goshawk nighttime roost locations.
+
+# References

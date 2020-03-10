@@ -1,0 +1,3 @@
+"0","roost <- roost %>% filter(difs < 4)"
+"0","# And save it."
+"0","write.csv(roost, '../h_data/processed/used_2.csv')"

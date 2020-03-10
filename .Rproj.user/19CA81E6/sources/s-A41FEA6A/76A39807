@@ -1,0 +1,24 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1583449516374.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "76A39807",
+    "lastKnownWriteTime" : 1583878752,
+    "last_content_update" : 1583878752422,
+    "path" : "C:/Users/Gwyn/sfuvault/PEEC-talk/reports/20200305_write_up.Rmd",
+    "project_path" : "reports/20200305_write_up.Rmd",
+    "properties" : {
+        "chunk_output_type" : "inline",
+        "cursorPosition" : "67,83",
+        "scrollLine" : "61",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
