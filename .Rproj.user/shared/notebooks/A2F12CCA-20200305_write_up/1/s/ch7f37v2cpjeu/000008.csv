@@ -1,0 +1,6 @@
+"0","library('MuMIn')"
+"0","aics <- aictab(models, modnames=modnames)"
+"0","r.nb.canopy <- r.squaredGLMM(nb.canopy)"
+"0","r.n.hab <- r.squaredGLMM(n.hab)"
+"0","aics %>% dplyr::select(1:7) %>%"
+"0","  kable(col.names=c('Model', 'K', 'AIC~c~', 'Delta AIC', 'AIC weight', 'Cum. AIC weights', 'log-likelihood'))"
