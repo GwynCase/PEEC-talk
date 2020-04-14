@@ -1,0 +1,4 @@
+"0","library(knitr)"
+"0","library(kableExtra)"
+"0","kable(roost.summary, 'latex', booktabs=T) %>%"
+"0","  kable_styling(position = ""float_left"")"

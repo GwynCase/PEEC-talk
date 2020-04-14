@@ -1,1 +1,0 @@
-"0","knitr::kable(roost.summary, caption = 'Number of roosts calculated per site in 2019', col.names=c('Site abbr.', 'N. roosts'))"
